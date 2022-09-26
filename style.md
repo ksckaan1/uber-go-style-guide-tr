@@ -691,17 +691,13 @@ poll(10*time.Second)
 </td></tr>
 </tbody></table>
 
-Going back to the example of adding 24 hours to a time instant, the method we
-use to add time depends on intent. If we want the same time of the day, but on
-the next calendar day, we should use [`Time.AddDate`]. However, if we want an
-instant of time guaranteed to be 24 hours after the previous time, we should
-use [`Time.Add`].
+Bir zaman anına 24 saat ekleme örneğine geri dönersek, zaman eklemek için kullandığımız yöntem niyete bağlıdır. Günün aynı saatini istiyorsak, ancak bir sonraki takvim gününde [`Time.AddDate`] kullanmalıyız. Ancak, bir anın bir önceki zamandan 24 saat sonra olmasını garanti etmek istiyorsak, [`Time.Add`] kullanmalıyız.
 
 [`Time.AddDate`]: https://golang.org/pkg/time/#Time.AddDate
 [`Time.Add`]: https://golang.org/pkg/time/#Time.Add
 
 ```go
-newDay := t.AddDate(0 /* years */, 0 /* months */, 1 /* days */)
+newDay := t.AddDate(0 /* yıl */, 0 /* ay */, 1 /* gün */)
 maybeNewDay := t.Add(24 * time.Hour)
 ```
 
@@ -900,11 +896,10 @@ paketin genel API'sinin bir parçası olacaklardır.
 Bir çağrı başarısız olursa hataları _(errors)_ aktarmak için üç ana seçenek vardır.:
 
 - orijinal hatayı olduğu gibi döndür
-- 
 - `fmt.Errorf` ve `%w` fiili ile bir bağlam _(context)_ ekle
 - `fmt.Errorf` ve `%v` fiili ile bir bağlam _(context)_ ekle
 
-yoksa orijinal hatayı olduğu gibi döndürün. Bu, orijinal hata türünü ve mesajını korur.
+Yoksa orijinal hatayı olduğu gibi döndürün. Bu, orijinal hata türünü ve mesajını korur.
 Temel alınan hata mesajının nereden geldiğini bulmak için yeterli bilgiye sahip olduğu durumlar için çok uygundur.
 
 Aksi takdirde, "connection refused" gibi belirsiz bir hata yerine "call service foo: connection refused" gibi daha yararlı hatalar elde etmek için mümkünse hata mesajına bağlam _(context)_ ekleyin.
@@ -957,16 +952,16 @@ x: y: new store: the error
 
 Ancak hata başka bir sisteme gönderildiğinde, mesajın bir hata olduğu açık olmalıdır _(örneğin, günlüklerde (logs) `err` etiketi veya "Failed" öneki)_.
 
-Ayrıca bkz, [Don't just check errors, handle them gracefully].
+Ayrıca bkz, [Hataları sadece kontrol etme, onları nazikçe işle].
 
 [`"pkg/errors".Cause`]: https://godoc.org/github.com/pkg/errors#Cause
-[Don't just check errors, handle them gracefully]: https://dave.cheney.net/2016/04/27/dont-just-check-errors-handle-them-gracefully
+[Hataları sadece kontrol etme, onları nazikçe işle]: https://dave.cheney.net/2016/04/27/dont-just-check-errors-handle-them-gracefully
 
 #### Error'ları İsimlendirme'
 
 Global olarak saklanan Error değerleri için,
 dışa aktarılıp aktarılmadığına bağlı olarak `Err` veya `err` önekini kullanın.
-İsimlendirme için ayrıca [Prefix Unexported Globals with _](#prefix-unexported-globals-with-_) bölümüne bakınız.
+İsimlendirme için ayrıca [Dışa aktarılmayan globallere _ ön eki ekle](#prefix-unexported-globals-with-_) bölümüne bakınız.
 
 ```go
 var (
@@ -1801,7 +1796,7 @@ BenchmarkStrconv-4    64.2 ns/op    1 allocs/op
 </td></tr>
 </tbody></table>
 
-### String'den Byte'a Döünüşümden Kaçının
+### String'den Byte'a Dönüşümden Kaçının
 
 Sabit bir string'den art arda byte slice'ları oluşturmayın. Bunun yerine, dönüştürmeyi bir kez gerçekleştirin ve sonucu yakalayın.
 
@@ -1853,17 +1848,12 @@ Mümkünse, map'leri `make()` ile başlatırken kapasite ipuçları sağlayın.
 make(map[T1]T2, hint)
 ```
 
-Providing a capacity hint to `make()` tries to right-size the
-map at initialization time, which reduces the need for growing
-the map and allocations as elements are added to the map.
+`make()` fonksiyonuna bir kapasite ipucu sağlamak, başlatma zamanında map'i doğru boyutlandırmaya çalışır, bu da map'i büyütme ihtiyacını ve map'e öğeler eklendikçe yeni alan tahsis etme ihtiyacını ortadan kaldırır.
 
-Note that, unlike slices, map capacity hints do not guarantee complete,
-preemptive allocation, but are used to approximate the number of hashmap buckets
-required. Consequently, allocations may still occur when adding elements to the
-map, even up to the specified capacity.
+Slice'ların aksine, map kapasitesi ipuçlarının tam, önleyici tahsisi garanti etmediğini, ancak gereken hashmap bucket'larının sayısını tahmin etmek için kullanıldığını unutmayın. Sonuç olarak, map'e öğeler eklenirken, belirtilen kapasiteye kadar olsa bile, tahsisler yine de gerçekleşebilir.
 
 <table>
-<thead><tr><th>Bad</th><th>Good</th></tr></thead>
+<thead><tr><th>Kötü</th><th>İyi</th></tr></thead>
 <tbody>
 <tr><td>
 
@@ -1891,34 +1881,27 @@ for _, f := range files {
 </td></tr>
 <tr><td>
 
-`m` is created without a size hint; there may be more
-allocations at assignment time.
+`m`, boyut ipucu olmadan oluşturulur; atama zamanında daha fazla tahsis olabilir.
 
 </td><td>
 
-`m` is created with a size hint; there may be fewer
-allocations at assignment time.
+`m`, bir boyut ipucuyla oluşturulur; atama zamanında daha az tahsis olabilir.
 
 </td></tr>
 </tbody></table>
 
-#### Specifying Slice Capacity
+#### Slice Kapasitesinin Belirtilmesi
 
-Where possible, provide capacity hints when initializing slices with `make()`,
-particularly when appending.
+Mümkün olduğunda, slice'ları `make()` ile başlatırken, özellikle eklerken kapasite ipuçları sağlayın.
 
 ```go
 make([]T, length, capacity)
 ```
 
-Unlike maps, slice capacity is not a hint: the compiler will allocate enough
-memory for the capacity of the slice as provided to `make()`, which means that
-subsequent `append()` operations will incur zero allocations (until the length
-of the slice matches the capacity, after which any appends will require a resize
-to hold additional elements).
+Map'lerden farklı olarak, slice kapasitesi bir ipucu değildir: derleyici, slice'ın kapasitesi için `make()`'te belirtilen belleği ayıracaktır. Bu `append()` ile yapılan ileri zamanlardaki ekleme işlemlerinde yeniden tahsis işlemine gerek olmayacağı anlamına gelir. Eğer belirtilen ipucunun dışına çıkılacak olursa, o zamanda yeniden tahsis işlemi gerçekleşir.
 
 <table>
-<thead><tr><th>Bad</th><th>Good</th></tr></thead>
+<thead><tr><th>Kötü</th><th>İyi</th></tr></thead>
 <tbody>
 <tr><td>
 
@@ -2525,7 +2508,7 @@ Gömmede **yapılmaması gerekenler**:
 - Dış türlerin sıfır değerlerini etkilememelidir. Dış türün yararlı bir sıfır değeri varsa, iç türü gömdükten sonra yine de yararlı bir sıfır değerine sahip olmalıdır.
 - İç türü gömmenin bir yan etkisi olarak dış türden alakasız fonksiyonları veya alanları göstermemlidir.
 - Dışa aktarılmamış türleri göstermemelidir.
-- Dış türklerin kopyalama mantığını etkilememelidir.
+- Dış türlerin kopyalama mantığını etkilememelidir.
 - dış türün API'sini veya tür semantiğini değiştirmemelidir.
 - İç türün standart olmayan bir formu gömülmemeldir.
 - Dış türün uygulama (implementaston) ayrıntılarını göstermemelidir.
