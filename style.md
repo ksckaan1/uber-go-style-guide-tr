@@ -2345,9 +2345,6 @@ for _, v := range data {
 
 ### Gereksiz Else
 
-If a variable is set in both branches of an if, it can be replaced with a
-single if.
-
 Eğer bir değişken, `if`'in her iki branşında da değer değişimine uğruyorsa, tek `if` branşı kullanımına düşürülebilir.
 
 <table>
