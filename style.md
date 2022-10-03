@@ -146,13 +146,13 @@ Go araçları _(tools)_ için editör destekleri hakkında bilgilendirmeyi burad
 
 ## Yönergeler
 
-### Arabirimlere Yönelik İşaretçiler _(Pointer to Interaces)_
+### Arabirimlere Yönelik İşaretçiler _(Pointer to Interfaces)_
 
 Bir arabirim _(interface)_ için neredeyse hiçbir zaman bir işaretçiye _(pointer)_ ihtiyacınız olmaz. Arabirimleri değerler olarak geçirmelisiniz; temel alınan veriler hala bir işaretçi olabilir.
 
 Bir arabirim iki alanlıdır:
 
-1. Bazı türe özgü bilgilere yönelik bir işaretçi. Bunu "tip." olarak düşünebilirsiniz.
+1. Bazı türe özgü bilgilere yönelik bir işaretçi. Bunu "type." olarak düşünebilirsiniz.
 2. Veri işaretçisi. Depolanan veriler bir işaretçi ise, doğrudan depolanır. Depolanan veriler bir değerse, değere yönelik bir işaretçi saklanır.
 
 Arayüz metodlarının temel alınan verileri değiştirmesini istiyorsanız, bir işaretçi kullanmanız gerekir.
@@ -205,7 +205,7 @@ func (h *Handler) ServeHTTP(
 </td></tr>
 </tbody></table>
 
-`var _ http.Handler = (*Handler)(nil)` ifadesi, eğer `*Handler`, `http.Handler` ile eşleşmeyi bırakırsaderlenirken hata verir.
+`var _ http.Handler = (*Handler)(nil)` ifadesi, eğer `*Handler`, `http.Handler` ile eşleşmeyi bırakırsa derlenirken hata verir.
 
 Atamanın sağ tarafı, iddia edilen türün sıfır değeri olmalıdır. Bu, işaretçi türleri (`*Handler` gibi), slice'lar ve map'ler için `nil` ve struct türleri için boş bir struct'ır.
 
@@ -373,11 +373,11 @@ func (m *SMap) Get(k string) string {
 
 <tr><td>
 
-Mutex alanı, ve `Lock` ve `Unlock` metodları `SMap`'in dışa aktarılan API'sinin istenmeyen kısmıdır.
+Mutex alanı, yani artık struct'ın bir parçası olan `Lock` ve `Unlock` metodları `SMap`'in dışa aktarılan API'sinin istenmeyen kısmıdır.
 
 </td><td>
 
-Mutex ve metodları, arayıcılardan gizlenen `SMap`'in uygulama detaylarıdır.
+Mutex ve metodları, çağrıcılardan _(caller)_ gizlenen `SMap`'in uygulama detaylarıdır.
 
 </td></tr>
 </tbody></table>
@@ -529,11 +529,11 @@ return p.count
 </td></tr>
 </tbody></table>
 
-Defer son derece küçük bir ek yüke sahiptir ve yalnızca işlev yürütme sürenizin nanosaniye düzeyinde olduğunu kanıtlayabilirseniz kaçınılmalıdır. Defer'leri kullanmanın koda kattığı okunabilirlik kazancı, kullanmanın oluşturduğu küçük maliyete değerdir. Bu, özellikle basit bellekten daha fazlasına sahip, diğer hesaplamaların `defer`'den daha önemli olduğu erişimlerde daha büyük metodlar için geçerlidir
+Defer son derece küçük bir ek yüke sahiptir ve yalnızca fonksiyon çalışma sürenizin nanosaniye düzeyinde olduğunu kanıtlayabilirseniz kaçınılmalıdır. Defer'leri kullanmanın koda kattığı okunabilirlik kazancı, kullanmanın oluşturduğu küçük maliyete değerdir. Bu, özellikle basit bellekten daha fazlasına sahip, diğer hesaplamaların `defer`'den daha önemli olduğu erişimlerde daha büyük metodlar için geçerlidir
 
 ### Channel Boyutu 1 veya Yok
 
-Channel'ların genellikle 1 boyutunda olması veya arabelleğe alınmamış _(unbuffered)_ olması gerekir. Varsayılan olarak, channel'lar arabelleğe alınmaz _(unbuffered)_ ve sıfır boyutundadır. Başka herhangi bir boyut, yüksek düzeyde incelemeye tabi olmalıdır. Boyutun nasıl belirlendiğini, channel'ın yük altında dolmasını ve writer'ları engellemesini neyin engellediğini ve bu gerçekleştiğinde ne olacağını düşünün.
+Channel'ların genellikle 1 boyutunda olması veya arabelleğe alınmamış _(unbuffered)_ olması gerekir. Varsayılan olarak, channel'lar arabelleğe alınmaz _(unbuffered)_ ve sıfır boyutundadır. Başka herhangi bir boyut, yüksek düzeyde incelemeye tabi olmalıdır. Boyutun nasıl belirlendiğini, channel'ın yük altında dolmasını ve writer'ları bloklamasını neyin engellediğini ve bu gerçekleştiğinde ne olacağını düşünün.
 
 <table>
 <thead><tr><th>Kötü</th><th>İyi</th></tr></thead>
@@ -611,7 +611,7 @@ const (
 
 ### Zamanla uğraşmak için `time` kullanın
 
-Time karmaşıktır. Time hakkında sıklıkla yapılan yanlış varsayınlar aşağıdakileri içerir.
+Time karmaşıktır. Time hakkında sıklıkla yapılan yanlış varsayımlar aşağıdakileri içerir.
 
 1. 1 gün 24 saattir
 2. 1 saat 60 dakikadır
@@ -619,7 +619,7 @@ Time karmaşıktır. Time hakkında sıklıkla yapılan yanlış varsayınlar a�
 4. 1 yıl 365 gündür
 5. [ve daha fazlası](https://infiniteundo.com/post/25326999628/falsehoods-programmers-believe-about-time)
 
-Örneğin _1._, bir zaman anına 24 saat eklemenin her zaman aynı olmayacağı anlamına gelir. yeni bir takvim günü verir.
+Örneğin _1. (birinci)_, bir zaman anına 24 saat eklemenin her zaman aynı olmayacağı anlamına gelir. yeni bir takvim günü verir.
 
 Bu nedenle, zamanla uğraşırken her zaman [`"time"`] paketini kullanın, çünkü bu yanlış varsayımların daha güvenli ve daha doğru bir şekilde ele alınmasına yardımcı olur.
 
@@ -672,7 +672,8 @@ func poll(delay int) {
   }
 }
 
-poll(10) // saniye mi, yoksa milisaniye miydi?
+poll(10) // hadi bakalım! buraya saniye mi, 
+// yoksa milisaniye mi yazıyorduk?
 ```
 
 </td><td>
@@ -762,10 +763,10 @@ Bu, pratikte bir sorun teşkil etmese de, `time` paketinin artık saniyelerle za
 
 #### Error _(Hata)_ Tipleri
 
-Hataları bildirmek için birkaç seçenek vardır.
+Error'ları tanımlamak için birkaç seçenek vardır.
 Kullanım durumunuza en uygun seçeneği seçmeden önce aşağıdakileri göz önünde bulundurun.
 - Arayanın, işleyebilmesi için hatayı eşleştirmesi gerekiyor mu? Evetse, bir üst düzey hata değişkeni veya özel bir tür bildirerek [`errors.Is`] veya [`errors.As`] fonksiyonlarını desteklememiz gerekir.
-- Hata mesajı statik bir dize mi yoksa bağlamsal bilgi gerektiren dinamik bir dize mi?
+- Hata mesajı statik bir dize mi yoksa bağlamsal bilgi gerektiren dinamik bir string mi?
   İlki için [`errors.New`] kullanabiliriz, ancak ikincisi için [`fmt.Errorf`] veya özel bir error tipi kullanmalıyız.
 - Aşağı akış fonksiyonunda döndürülen bir hatayı farklı bölümlerde kullanacakmıyız?
   Eğer öyleyse, [Error Sarmalama](#error-sarmalamasarma) konusuna bakın.
@@ -895,16 +896,16 @@ paketin genel API'sinin bir parçası olacaklardır.
 
 Bir çağrı başarısız olursa hataları _(errors)_ aktarmak için üç ana seçenek vardır.:
 
-- orijinal hatayı olduğu gibi döndür
-- `fmt.Errorf` ve `%w` fiili ile bir bağlam _(context)_ ekle
-- `fmt.Errorf` ve `%v` fiili ile bir bağlam _(context)_ ekle
+- orijinal hatayı olduğu gibi döndürmek
+- `fmt.Errorf` ve `%w` fiili ile bir bağlam _(context)_ eklemek
+- `fmt.Errorf` ve `%v` fiili ile bir bağlam _(context)_ eklemek
 
 Yoksa orijinal hatayı olduğu gibi döndürün. Bu, orijinal hata türünü ve mesajını korur.
 Temel alınan hata mesajının nereden geldiğini bulmak için yeterli bilgiye sahip olduğu durumlar için çok uygundur.
 
 Aksi takdirde, "connection refused" gibi belirsiz bir hata yerine "call service foo: connection refused" gibi daha yararlı hatalar elde etmek için mümkünse hata mesajına bağlam _(context)_ ekleyin.
 
-Hatalarınıza bağlam eklemek için `fmt.Errorf`'u kullanın, arayanın temel nedeni eşleştirip çıkaramayacağına bağlı olarak `%w` veya `%v` fiilleri arasında seçim yapın.
+Hatalarınıza bağlam eklemek için `fmt.Errorf`'i kullanın, arayanın temel nedeni eşleştirip çıkaramayacağına _(unwrap)_ bağlı olarak `%w` veya `%v` fiilleri arasında seçim yapın.
 
 - Arayanın temeldeki hataya erişimi olması gerekiyorsa `%w` kullanın.
   Bu, çoğu sarılmış hata için iyi bir varsayılandır, ancak arayanların bu davranışa güvenmeye başlayabileceğini unutmayın. Bu nedenle, sarılmış hatanın bilinen bir `var` veya tür olduğu durumlar için, belgeleyin ve fonksiyonunuzun sözleşmesinin bir parçası olarak test edin.
@@ -957,7 +958,7 @@ Ayrıca bkz, [Hataları sadece kontrol etme, onları nazikçe işle].
 [`"pkg/errors".Cause`]: https://godoc.org/github.com/pkg/errors#Cause
 [Hataları sadece kontrol etme, onları nazikçe işle]: https://dave.cheney.net/2016/04/27/dont-just-check-errors-handle-them-gracefully
 
-#### Error'ları İsimlendirme'
+#### Error'ları İsimlendirme
 
 Global olarak saklanan Error değerleri için,
 dışa aktarılıp aktarılmadığına bağlı olarak `Err` veya `err` önekini kullanın.
@@ -966,7 +967,7 @@ dışa aktarılıp aktarılmadığına bağlı olarak `Err` veya `err` önekini 
 ```go
 var (
   // Aşağıdaki iki hata dışa aktarılır, 
-  // böylece bu paketin kullanıcıları bunları 
+  // böylece bu paketin kullanıcıları, bunları 
   // error.Is ile eşleştirebilir.
 
   ErrBrokenLink = errors.New("link is broken")
