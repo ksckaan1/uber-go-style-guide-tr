@@ -768,7 +768,7 @@ Kullanım durumunuza en uygun seçeneği seçmeden önce aşağıdakileri göz �
 - Hata mesajı statik bir dize mi yoksa bağlamsal bilgi gerektiren dinamik bir dize mi?
   İlki için [`errors.New`] kullanabiliriz, ancak ikincisi için [`fmt.Errorf`] veya özel bir error tipi kullanmalıyız.
 - Aşağı akış fonksiyonunda döndürülen bir hatayı farklı bölümlerde kullanacakmıyız?
-  Eğer öyleyse, [Error Sarmalama](#error-wrapping) konusuna bakın.
+  Eğer öyleyse, [Error Sarmalama](#error-sarmalamasarma) konusuna bakın.
 
 [`errors.Is`]: https://golang.org/pkg/errors/#Is
 [`errors.As`]: https://golang.org/pkg/errors/#As
@@ -961,7 +961,7 @@ Ayrıca bkz, [Hataları sadece kontrol etme, onları nazikçe işle].
 
 Global olarak saklanan Error değerleri için,
 dışa aktarılıp aktarılmadığına bağlı olarak `Err` veya `err` önekini kullanın.
-İsimlendirme için ayrıca [Dışa aktarılmayan globallere _ ön eki ekle](#prefix-unexported-globals-with-_) bölümüne bakınız.
+İsimlendirme için ayrıca [Dışa aktarılmayan globallere _ ön eki ekle](#dışa-aktarılmayan-globallerin-başına-_-ekleyin) bölümüne bakınız.
 
 ```go
 var (
@@ -1567,7 +1567,7 @@ Yukarıdakileri göz önünde bulundurarak, `init()`'in tercih edilebileceği ve
 
 ### Main'de Çıkış
 
-Go programları, hemen çıkmak için [`os.Exit`] veya [`log.Fatal*`] kullanır. (Paniklemek programlardan çıkmak için iyi bir yol değildir, lütfen [panik yapmayın](#dont-panic).)
+Go programları, hemen çıkmak için [`os.Exit`] veya [`log.Fatal*`] kullanır. (Paniklemek programlardan çıkmak için iyi bir yol değildir, lütfen [panik yapmayın](#panik-panic-yapma).)
 
 [`os.Exit`]: https://golang.org/pkg/os/#Exit
 [`log.Fatal*`]: https://golang.org/pkg/log/#Fatal
@@ -2460,7 +2460,7 @@ const (
 </tbody></table>
 
 **İstisna**: Dışa aktarılmayan error isimlendirmesi `_` olmadan `err` şeklinde başlamalıdır.
-[Error İsimlendirme](#error-isimlendirme)'ye göz at.
+[Error'ları İsimlendirme](#errorları-i̇simlendirme)'ye göz at.
 
 ### Struct'larda İçe Gömmek
 
@@ -2762,7 +2762,7 @@ func f(list []int) {
 
 ### Değişkenlerin Kapsamını Azalt
 
-Mümkün olduğu yerde, değişkenlerin kapsamını azaltın. Fakat [iç içeliği azaltma](#reduce-nesting) ile çelişiyorsa kapsamı azaltmayın.
+Mümkün olduğu yerde, değişkenlerin kapsamını azaltın. Fakat [iç içeliği azaltma](#i̇ç-içeliği-azalt) ile çelişiyorsa kapsamı azaltmayın.
 
 <table>
 <thead><tr><th>Kötü</th><th>İyi</th></tr></thead>
@@ -3079,7 +3079,7 @@ Bildirim ve başlatma görsel olarak farklıdır.
 </tbody></table>
 
 Mümkün olduğunda, map'leri `make()` ile başlatırken kapasite ipuçları sağlayın. 
-[Map Kapasite İpuçları Belirtme](#specifying-map-capacity-hints)
+[Map Kapasite İpuçları Belirtme](#map-kapasitesi-i̇puçlarını-belirtme)
 bölümünü okuyarak daha fazla bilgi edinebilirsiniz.
 
 Öte yandan, map sabit bir öğe listesi içeriyorsa, map başlatmak için map değişmezlerini (literals) kullanın.
