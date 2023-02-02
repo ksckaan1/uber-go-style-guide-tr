@@ -2972,7 +2972,7 @@ user := User{
 
 Bu sayede varsayılan değerleri atlayarak okuyucular için görüntü kalabalığı azaltılmasına yardımcı olunabilir. Yalnızca sıfır değer olmayacak alanları değiştirin.
 
-Alanın sıfır değernde olduğunun özellikle dikkat çekmek için belirtilmesi gerektiği yerlerde sıfır değeri belirtilebilir. Örneğin, test tablolarındaki test senaryoları, sıfır değerli olsa bile alan adlarında belirtilebilir.
+Alanın sıfır değerinde olduğunun özellikle dikkat çekmek için belirtilmesi gerektiği yerlerde sıfır değeri belirtilebilir. Örneğin, test tablolarındaki test senaryoları, sıfır değerli olsa bile alan adlarında belirtilebilir.
 
 ```go
 tests := []struct{
