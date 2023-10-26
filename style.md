@@ -2525,7 +2525,7 @@ type A struct {
 	// Kötü: A.Lock() ve A.Unlock() 
 	// şuanda erişilebilir, fonksiyonel
 	// bir yararı yok ve kullanıcılar
-	// A dahilinde detatyları kontrol edebilir.
+	// A dahilinde detayları kontrol edebilir.
     sync.Mutex
 }
 ```
