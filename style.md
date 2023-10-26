@@ -2465,7 +2465,7 @@ const (
 
 ### Struct'larda İçe Gömmek
 
-Gömülü tipler sıra olarak struct'ın en üstünd eyer almalıdır ve gömülü olan satırla diğer satırlardan boşlukla ayrılmalıdır.
+Gömülü tipler sıra olarak struct'ın en üstünde yer almalıdır ve gömülü olan satırla diğer satırlardan boşlukla ayrılmalıdır.
 
 <table>
 <thead><tr><th>Kötü</th><th>İyi</th></tr></thead>
