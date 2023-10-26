@@ -1,3 +1,5 @@
+## Okumak için [buraya](style.md) tıklayabilirsiniz.
+
 Bu repo, Uber'de Go kodunda kullanılan kalıpları ve kuralları belgeleyen [Uber Go Stil Kılavuzu](style.md)'nu içerir.
 
 ## Stil Klavuzu
